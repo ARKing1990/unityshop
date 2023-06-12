@@ -113,6 +113,9 @@
                             <input type="text" class="form-control" placeholder="Max" name="max" value={{ old('max') }}>
                         </div>
                         <div class="col-sm-3">
+                            <input type="text" class="form-control" placeholder="Search" name="search" value="{{ old('search') }}">
+                        </div>
+                        <div class="col-sm-3">
                             <button type="submit" class="btn btn-primary">Terapkan</button>
                         </div>
                     </div>
