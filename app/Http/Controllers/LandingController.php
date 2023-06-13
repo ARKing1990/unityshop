@@ -20,15 +20,17 @@ class LandingController extends Controller
 
         if ($keyword) {
             $products = Product::where('status', 'Accepted')
-                ->where(function ($query) use ($keyword) {
-                    $query->where('name', 'like', '%' . $keyword . '%')
-                        ->orWhereHas('category', function ($query) use ($keyword) {
-                            $query->where('name', 'like', '%' . $keyword . '%');
-                        })
-                        ->orWhere('brands', 'like', '%' . $keyword . '%');
-                })
-                ->with('category')
-                ->get();
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhereHas('category', function ($query) use ($keyword) {
+                        $query->where('name', 'like', '%' . $keyword . '%');
+                    })
+                    ->orWhereHas('brand', function ($query) use ($keyword) {
+                        $query->where('name', 'like', '%' . $keyword . '%');
+                    });
+            })
+            ->with('category', 'brand')
+            ->get();
         } elseif ($request->category) {
             $products = Product::where('status', 'Accepted')
                 ->with('category')
