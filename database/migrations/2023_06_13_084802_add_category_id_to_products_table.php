@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('role_id')->after('id');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-    });
+        Schema::table('products', function (Blueprint $table) {
+            $table->unsignedBigInteger('category_id')->after('id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        });
     }
 
     /**
@@ -26,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role_id');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('category_id');
         });
     }
 };

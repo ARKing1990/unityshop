@@ -15,11 +15,9 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("category_id");
             $table->string("name");
             $table->bigInteger("price")->default(0);
             $table->bigInteger("sale_price")->default(0);
-            $table->string("brands")->nullable();
             $table->integer("rating")->default(0);
             $table->string('image')->nullable();
             $table->timestamps();

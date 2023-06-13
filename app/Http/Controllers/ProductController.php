@@ -16,6 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->get();
+        $products = Product::with('brand')->get();
         $products = Product::where('status', 'Accepted')->get();
 
         if (Auth::user()->role->name == 'User') {
@@ -24,6 +25,7 @@ class ProductController extends Controller
             return view('product.index', ['products' => $products]);
         }
     }
+
     public function show()
     {
         $products = Product::all();
@@ -41,7 +43,6 @@ class ProductController extends Controller
         } else {
             abort(404);
         }
-
     }
 
     public function create()
@@ -54,13 +55,11 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'category' => 'required',
             'name' => 'required|string|min:3',
             'price' => 'required|integer',
             'sale_price' => 'required|integer',
-            'brand' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
@@ -78,10 +77,10 @@ class ProductController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'sale_price' => $request->sale_price,
-            'brands' => $request->brand,
+            'brands_id' => $request->brand,
             'image' => $imageName,
-            'status' =>$status,
-            'created_by'=>Auth::id(),
+            'status' => $status,
+            'created_by' => Auth::id(),
         ]);
 
         return redirect()->route('product.index');
@@ -89,81 +88,65 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        // ambil data product berdasarkan id
         $product = Product::where('id', $id)->with('category')->first();
-
-        // ambil data brand dan category sebagai isian di pilihan (select)
         $brands = Brand::all();
         $categories = Category::all();
 
-        // tampilkan view edit dan passing data product
         return view('product.edit', compact('product', 'brands', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
-        // cek jika user mengupload gambar di form
         if ($request->hasFile('image')) {
-            // ambil nama file gambar lama dari database
             $old_image = Product::find($id)->image;
-
-            // hapus file gambar lama dari folder slider
             Storage::delete('public/product/'.$old_image);
-
-            // ubah nama file
             $imageName = time() . '.' . $request->image->extension();
-
-            // simpan file ke folder public/product
             Storage::putFileAs('public/product', $request->image, $imageName);
 
-            // update data product
             Product::where('id', $id)->update([
                 'category_id' => $request->category,
                 'name' => $request->name,
                 'price' => $request->price,
                 'sale_price' => $request->sale_price,
-                'brands' => $request->brand,
+                'brands_id' => $request->brand,
                 'image' => $imageName,
             ]);
-
         } else {
             Product::where('id', $id)->update([
                 'category_id' => $request->category,
                 'name' => $request->name,
                 'price' => $request->price,
                 'sale_price' => $request->sale_price,
-                'brands' => $request->brand,
+                'brands_id' => $request->brand,
             ]);
         }
 
-        // redirect ke halaman product.index
         return redirect()->route('product.show');
     }
+
     public function accept($id)
     {
         $product = Product::findOrFail($id);
         $product->status = 'Accepted';
         $product->save();
 
-        return redirect()->route('product.index')->with('success', 'product accepted successfully.');
+        return redirect()->route('product.index')->with('success', 'Product accepted successfully.');
     }
+
     public function reject($id)
     {
         $product = Product::findOrFail($id);
         $product->status = 'Reject';
         $product->save();
 
-        return redirect()->route('product.index')->with('success', 'product has been reject.');
+        return redirect()->route('product.index')->with('success', 'Product has been rejected.');
     }
+
     public function destroy($id)
     {
-        // ambil data product berdasarkan id
         $product = Product::find($id);
-
-        // hapus data product
         $product->delete();
 
-        // redirect ke halaman product.index
         return redirect()->route('product.index');
     }
 }

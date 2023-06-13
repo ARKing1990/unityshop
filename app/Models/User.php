@@ -54,7 +54,7 @@ class User extends Authenticatable
     }
     public function products()
     {
-        return $this->hasMany(Slider::class, 'created_by');
+        return $this->hasMany(Product::class, 'created_by');
     }
     public function isAdmin()
     {

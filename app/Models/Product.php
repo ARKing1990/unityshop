@@ -14,7 +14,7 @@ class Product extends Model
         'name',
         'price',
         'sale_price',
-        'brands',
+        'brands_id',
         'rating',
         'image',
         'status',
@@ -23,7 +23,11 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brands_id');
     }
     public function createdBy()
     {
