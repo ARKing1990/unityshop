@@ -44,7 +44,7 @@
                                                     <input class="form-control" id="inputPassword" name="password" type="password" placeholder="Create a password" />
                                                     <label for="inputPassword">Password</label>
                                                 </div>
-                                            <div class="mt-4 mb-0">
+                                            <div class="mt-4 mb-3 d-grid">
                                                 <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Create Account</button>
                                             </div>
                                         </form>

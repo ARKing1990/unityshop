@@ -32,14 +32,16 @@ class ProductController extends Controller
         return view('product.show', compact('products'));
     }
 
-    public function view($id)
+    public function tampil($id)
     {
-        $product = Product::where('id', $id)->with('category')->first();
+        $categories = Category::all();
+        $brands = Brand::all();
+        $product = Product::where('id', $id)->with('category','brand')->first();
 
         $related = Product::where('category_id', $product->category->id)->inRandomOrder()->limit(4)->get();
-
+        $relate = Product::where('brands_id', $product->brand->id)->inRandomOrder()->limit(4)->get();
         if ($product) {
-            return view('product.view', compact('product', 'related'));
+            return view('product.tampil', compact('product','categories','brands', 'related'));
         } else {
             abort(404);
         }

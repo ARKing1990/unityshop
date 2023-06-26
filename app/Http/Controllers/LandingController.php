@@ -13,7 +13,7 @@ class LandingController extends Controller
     public function index(Request $request)
     {
         $categories = Category::all();
-
+        $brands = Brand::all();
         $sliders = Slider::where('status', 'Accepted')->get();
 
         $keyword = $request->input('search');
@@ -38,7 +38,14 @@ class LandingController extends Controller
                     $query->where('name', $request->category);
                 })
                 ->get();
-        } elseif ($request->min && $request->max) {
+        } elseif ($request->brand) {
+            $products = Product::where('status', 'Accepted')
+                ->with('brand')
+                ->whereHas('brand', function ($query) use ($request) {
+                    $query->where('name', $request->brand);
+                })
+                ->get();
+        }elseif ($request->min && $request->max) {
             $products = Product::where('status', 'Accepted')
                 ->where(function ($query) use ($request) {
                     $query->where(function ($q) use ($request) {
@@ -54,11 +61,11 @@ class LandingController extends Controller
         } else {
             // mengambil 8 data produk secara acak
             $products = Product::where('status', 'Accepted')
-                ->inRandomOrder()
+                ->latest()
                 ->limit(8)
                 ->get();
         }
 
-        return view('landing', compact('products', 'categories', 'sliders'));
+        return view('landing', compact('products', 'categories','brands', 'sliders'));
     }
 }

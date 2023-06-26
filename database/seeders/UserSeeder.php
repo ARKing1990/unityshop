@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
         ]);
 
         // User
-        for ($i=0; $i < 10 ; $i++) {
+        for ($i=0; $i < 3 ; $i++) {
             $role = Role::inRandomOrder()->first();
 
             $user = User::create([

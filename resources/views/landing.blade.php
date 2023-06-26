@@ -33,10 +33,18 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{route('landing')}}">Home</a></li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                            <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 @foreach ($categories as $category)
                                     <li><a class="dropdown-item" href="{{ route('landing', ['category' => $category->name]) }}">{{ $category->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Brands</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach ($brands as $brand)
+                                    <li><a class="dropdown-item" href="{{ route('landing', ['brand' => $brand->name]) }}">{{ $brand->name }}</a></li>
                                 @endforeach
                             </ul>
                         </li>
@@ -141,7 +149,7 @@
                                 <div class="card-body p-4">
                                     <div class="text-center">
                                         <!-- Product name-->
-                                        <a href="{{ route('product.view', ['id' => $product->id]) }}" style="text-decoration: none" class="text-dark">
+                                        <a href="{{ route('product.tampil', ['id' => $product->id]) }}" style="text-decoration: none" class="text-dark">
                                             <small class="text-strong">{{ $product->category->name }}</small>
                                             <h5 class="fw-bolder">{{ $product->name }}</h5>
                                         </a>
