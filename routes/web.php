@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function(){
 
     //Product
     Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+    Route::post('/product/cart/', [ProductController::class, 'art'])->name('product.storeCart');
+    Route::get('/product/carts/{id}', [ProductController::class, 'cart'])->name('product.cart');
 
     //Admin
     Route::middleware('role:Admin')->group(function(){

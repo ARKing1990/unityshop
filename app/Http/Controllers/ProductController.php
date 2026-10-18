@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,11 @@ class ProductController extends Controller
         $products = Product::all();
         return view('product.show', compact('products'));
     }
-
+    public function cart($id){
+        $categories = Category::all();
+        $brands = Brand::all();
+        return view('product.cart', compact('categories','brands'));
+    }
     public function tampil($id)
     {
         $categories = Category::all();
@@ -46,7 +51,19 @@ class ProductController extends Controller
             abort(404);
         }
     }
+    public function art(Request $request){
+        $cart = Cart::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => $request->product_id,
+            'qty' => $request->qty,
+        ]);
 
+        // Dapatkan ID cart yang baru dibuat
+        $newCartId = $cart->id;
+
+        // Redirect ke halaman keranjang dengan ID cart baru
+        return redirect()->route('product.cart', ['id' => $newCartId]);
+    }
     public function create()
     {
         $brands = Brand::all();

@@ -33,4 +33,8 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+    public function productID()
+    {
+        return $this->hasMany(Cart::class, 'product_id');
+    }
 }

@@ -60,5 +60,9 @@ class User extends Authenticatable
     {
         return $this->role->name === 'Admin';
     }
+    public function userID()
+    {
+        return $this->hasMany(Cart::class, 'user_id');
+    }
 
 }
