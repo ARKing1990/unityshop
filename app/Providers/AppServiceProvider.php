@@ -23,8 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Paksa semua link asset() menggunakan HTTPS saat di Vercel
-        if (config('app.env') === 'production') {
+        if (env('APP_ENV') !== 'local') {
             URL::forceScheme('https');
         }
     }
