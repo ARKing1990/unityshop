@@ -1,17 +1,18 @@
 {
     "version": 2,
     "framework": null,
+    "outputDirectory": "public",
     "functions": {
         "api/index.php": { "runtime": "vercel-php@0.7.1" }
     },
     "routes": [
         {
-            "src": "/build/(.*)",
-            "dest": "/public/build/$1"
+            "src": "/(css|js|images|storage|assets|vendor|build)/(.*)",
+            "dest": "/$1/$2"
         },
         {
-            "src": "/(css|js|images|assets)/(.*)",
-            "dest": "/public/$1/$2"
+            "src": "/(.*)\\.(css|js|ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot)$",
+            "dest": "/$1.$2"
         },
         {
             "src": "/(.*)",
@@ -21,7 +22,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
-        "APP_URL": "https://unityshop.vercel.app",
+        "APP_URL": "https://unityshop-eight.vercel.app",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",

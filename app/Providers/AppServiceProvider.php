@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Paksa semua link asset() menggunakan HTTPS saat di Vercel
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
